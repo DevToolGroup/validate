@@ -4,12 +4,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>group.devtool.validate</groupId>
-  <artifactId>devtool-validate-parent</artifactId>
+  <groupId>group.devtool.validate.parent</groupId>
+  <artifactId>parent</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>validate</name>
+  <name>validate-parent</name>
   <url>http://www.devtool.group</url>
 
   <properties>
@@ -22,7 +22,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>4.13.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -55,10 +55,6 @@
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.1</version>
-          <configuration>
-            <source>1.8</source>
-            <target>1.8</target>
-          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>

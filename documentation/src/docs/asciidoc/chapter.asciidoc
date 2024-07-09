@@ -19,7 +19,7 @@ ifndef::sourcedir[:sourcedir: ../../main/java/group/devtool/validate/documentati
 === 环境准备
 * Java版本： JDK 8
 * http://maven.apache.org/[Apache Maven]
-  [[依赖配置]]
+[[依赖配置]]
 
 === 依赖配置
 在项目的 *pom.xml* 文件中增加以下maven配置
@@ -64,9 +64,9 @@ include::{sourcedir}/ValidateSimpleExample.java[]
 
 * 首先，验证结果对应一个列表，列表中的每项对应一个不满足条件的约束。
 * 其次，验证结果的每一项分为三部分：
-  ** 1、message字段表示约束注解的message()方法的返回结果，
-  ** 2、annotation字段对应约束注解的名称，
-  ** 3、location对应约束作用的字段的路径
+** 1、message字段表示约束注解的message()方法的返回结果，
+** 2、annotation字段对应约束注解的名称，
+** 3、location对应约束作用的字段的路径
 
 === 容器类型参数校验
 容器类参数主要是指类似List<E>，Collection<E>, Set<E>, Map<K, V>这样结构的参数，显然，这种类型的参数校验是不需要对容器本身校验的，更多的是对容器中的元素校验。
@@ -96,14 +96,14 @@ include::{sourcedir}/ValidateCollectionExample.java[]
 ----
 // 1. 场景1: 容器元素为null
 [
-{message: 不可以为空,annotation: NotNull,location: arg0.<List.E>[0]}
+  {message: 不可以为空,annotation: NotNull,location: arg0.<List.E>[0]}
 ]
 
 // 2. 场景2: 容器元素的字段不满足约束
 [
-{message: 不可以为空,annotation: NotNull,location: arg0.<List.E>[0].<Collection>[name]},
-{message: 内容不符合要求,annotation: Pattern,location: arg0.<List.E>[0].<Collection>[sex]},
-{message: 参数小于最小值,annotation: Min,location: arg0.<List.E>[0].<Collection>[age]}
+  {message: 不可以为空,annotation: NotNull,location: arg0.<List.E>[0].<Collection>[name]},
+  {message: 内容不符合要求,annotation: Pattern,location: arg0.<List.E>[0].<Collection>[sex]},
+  {message: 参数小于最小值,annotation: Min,location: arg0.<List.E>[0].<Collection>[age]}
 ]
 ----
 
@@ -128,14 +128,14 @@ include::{sourcedir}/ValidateArrayExample.java[]
 ----
 // 1. 场景1: 容器元素为null
 [
-{message: 不可以为空, annotation: NotNull, location: arg0.<array>[0]}
+  {message: 不可以为空, annotation: NotNull, location: arg0.<array>[0]}
 ]
 
 // 2. 场景2: 容器元素的字段不满足约束
 [
-{message: 不可以为空,annotation: NotNull,location: arg0.<array>[0].<ArrayExample>[name]},
-{message: 内容不符合要求,annotation: Pattern,location: arg0.<array>[0].<ArrayExample>[sex]},
-{message: 参数小于最小值,annotation: Min,location: arg0.<array>[0].<ArrayExample>[age]}
+  {message: 不可以为空,annotation: NotNull,location: arg0.<array>[0].<ArrayExample>[name]},
+  {message: 内容不符合要求,annotation: Pattern,location: arg0.<array>[0].<ArrayExample>[sex]},
+  {message: 参数小于最小值,annotation: Min,location: arg0.<array>[0].<ArrayExample>[age]}
 ]
 
 ----
@@ -149,8 +149,8 @@ include::{sourcedir}/DependenceExample.java[]
 1. 当 `idType` 的值等于 `ID`（中国大陆）时， `idNo` 的值必须满足纯数字
 2. 当 `idType` 的值等于 `HK`（中国香港）时， `idNo` 的值必须满足纯字母
 3. 当 `idType` 的值等于 `MC`（中国澳门）时， `idNo` 的值必须满足字符开头，数字结尾
-   初始化ParameterValidateService对象验证参数约束，具体方法如下：
-   [source, JAVA, indent=0]
+初始化ParameterValidateService对象验证参数约束，具体方法如下：
+[source, JAVA, indent=0]
 ----
 include::{sourcedir}/ValidateDependenceExample.java[]
 ----
@@ -173,6 +173,7 @@ include::{sourcedir}/ValidateDependenceExample.java[]
 [[自定义约束]]
 === 自定义约束
 当前组件默认支持的约束，包括：
+
 * `@AsserFalse`，验证字段为null或者Boolean值为假
 * `@AsseTrue`，验证字段不为null或者Boolean值为真
 * `@Email`，验证字段是否符合邮箱格式
@@ -202,10 +203,49 @@ include::{sourcedir}/CustomConstraintExample.java[]
 * 自定义注解需要增加 `@Valid` 注解，并实现 `ConstraintValidateOperate` 接口，例如: <<@Valid(operate = CustomConstraintExample.CustomConstraintValidateOperate.class) >>
 * 自定义注解需要增加 `String name()` , `String message()`, `boolean isCondition()`, `String useCondition()` 方法
 
+在初始化 `ParameterValidateServiceImpl` 类时，将自定义注解注入到服务
+示例代码
+[source, JAVA, indent=0]
+----
+include::{sourcedir}/ExampleConstraintValidateOperateProviderInject.java[]
+----
+
 [[容器解析]]
 === 容器解析
+当前容器解析支持 `List` , `Set` , `Map` 三种，基本能都满足日常的使用诉求，如果有自定义容器类的需求的话，可以通过实现接口 `ConstrainedValueSpreadProvider`, 具体实现方法可以参考系统默认实现
 
-[[失败结果]]
-=== 失败结果
+[source, JAVA, indent=0]
+----
+include::{sourcedir}/ExampleConstrainedValueSpreader.java[]
+----
 
+实现接口后，通过 `ParameterValidateServiceImpl` 构造器实现自定义解析器的注入
 
+示例代码：
+[source, JAVA, indent=0]
+----
+include::{sourcedir}/ExampleConstrainedValueSpreaderInject.java[]
+----
+
+[[验证结果]]
+=== 验证结果
+验证结果说明：
+
+* 首先，验证结果对应一个列表，列表中的每项对应一个不满足条件的约束。
+* 其次，验证结果的每一项分为三部分：
+    ** 1、message字段表示约束注解的message()方法的返回结果，
+    ** 2、annotation字段对应约束注解的名称，
+    ** 3、location对应约束作用的字段的路径
+
+其中location字段是每个约束对应的字段在整个对象中的位置，其格式为：<方法参数名>.<对象类型>[属性名/索引]
+
+* 方法参数名：arg0， arg1， arg2的形式
+* 对象类型：List，Set，Map，ObjectClassName（对象类型）的形式
+* 属性名/索引：分别对应普通对象的字段名，容器对象的索引下标
+
+[[遗留问题]]
+== 性能测试
+目前暂为针对性的验证框架的性能数据，后续随着组件的迭代，逐渐增加。。。
+
+== 循环依赖
+由于增加了 `@Reference` 和 `useCondition` 可能出现循环依赖的问题，目前只能通过使用时避免，后续版本迭代增加循环依赖的检查逻辑。

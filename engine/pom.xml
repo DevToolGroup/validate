@@ -6,12 +6,16 @@
 
   <parent>
     <groupId>group.devtool.validate</groupId>
-    <artifactId>devtool-validate-parent</artifactId>
+    <artifactId>validate-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>devtool-validate</artifactId>
+  <groupId>group.devtool.validate.engine</groupId>
+  <artifactId>engine</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <name>validate-engine</name>
   <packaging>jar</packaging>
-  
+
 </project>
