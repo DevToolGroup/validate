@@ -44,13 +44,11 @@
                 <artifactId>asciidoctor-maven-plugin</artifactId>
                 <version>${asciidoctor.maven.plugin.version}</version>
                 <dependencies>
-                    <!-- Comment this section to use the default jruby artifact provided by the plugin -->
                     <dependency>
                         <groupId>org.jruby</groupId>
                         <artifactId>jruby</artifactId>
                         <version>${jruby.version}</version>
                     </dependency>
-                    <!-- Comment this section to use the default AsciidoctorJ artifact provided by the plugin -->
                     <dependency>
                         <groupId>org.asciidoctor</groupId>
                         <artifactId>asciidoctorj</artifactId>
@@ -59,11 +57,6 @@
                 </dependencies>
                 <configuration>
                     <sourceDirectory>src/docs/asciidoc</sourceDirectory>
-                    <!-- If you set baseDir to ${project.basedir}, top-level includes are resolved relative to the project root -->
-                    <!--
-                    <baseDir>${project.basedir}</baseDir>
-                    -->
-                    <!-- Attributes common to all output formats -->
                     <attributes>
                         <endpoint-url>https://www.devtool.group</endpoint-url>
                         <project-version>${project.version}</project-version>
@@ -78,55 +71,6 @@
                         </goals>
                         <configuration>
                             <backend>html5</backend>
-                            <!--
-                            Scenarios for linking vs embedding assets:
-
-                            Link to both stylesheets and images::
-
-                              - don't set embedAssets option
-                              - set linkcss attribute to true
-                              - set imagesdir attribute to path relative to AsciiDoc source file
-
-                              <attributes>
-                                  <linkcss>true</linkcss>
-                                  <imagesdir>./images</imagesdir>
-                              </attributes>
-
-                            Embed stylesheets and images::
-
-                              - set embedAssets option to true
-                              - don't set linkcss attribute
-                              - set imagesdir attribute to path relative to project root
-
-                              <embedAssets>true</embedAssets>
-                              <attributes>
-                                  <imagesdir>src/docs/asciidoc/images</imagesdir>
-                              </attributes>
-
-                            Link to stylesheets but embed images::
-
-                              - set embedAssets option to true
-                              - set linkcss attribute to true
-                              - set imagesdir attribute to path relative to project root
-
-                              <embedAssets>true</embedAssets>
-                              <attributes>
-                                  <linkcss>true</linkcss>
-                                  <imagesdir>src/docs/asciidoc/images</imagesdir>
-                              </attributes>
-
-                            Embed stylesheets but link images (default)::
-
-                              - don't set embedAssets option
-                              - don't set linkcss attribute
-                              - set imagesdir attribute to path relative to AsciiDoc source file
-
-                              <attributes>
-                                  <imagesdir>./images</imagesdir>
-                              </attributes>
-
-                            IMPORTANT: When you enable image embedding, you must qualify the path with imagesdir, as shown above.
-                            -->
                             <attributes>
                                 <source-highlighter>rouge</source-highlighter>
                                 <imagesdir>./images</imagesdir>
